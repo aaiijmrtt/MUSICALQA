@@ -12,11 +12,11 @@ instruments = literals(['flute', 'oboe', 'violin', 'violin I', 'violin II', 'tim
 hands = literals(['right', 'left'])
 conjunction = literals(['against', 'followed by'])
 clef = literals(['bass', 'treble'])
-alphanumbers= literals(['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'])
+alphanumerals = literals(['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'])
 passage = literals(['homophonic', 'monophonic', 'polyphonic'])
 
 query = pyparsing.And([
-	
+
 	pyparsing.Group(
 		pyparsing.Optional(
 			pyparsing.Or([
@@ -24,8 +24,8 @@ query = pyparsing.And([
 				pyparsing.OneOrMore(pyparsing.Word(pyparsing.nums))
 			])
 		)
-	)
-	
+	),
+
 	pyparsing.Group(
 		pyparsing.Optional(
 			pyparsing.Or([
@@ -51,33 +51,41 @@ query = pyparsing.And([
 	   		 ])
 		)
 	),
-	pyparsing.Group(pyparsing.Optional(pyparsing.Literal('rest'))),
-	
-	pyparsing.Optional(pyparsing.Literal('notes')),
-	pyparsing.Optional(pyparsing.Literal('note')),
-	pyparsing.Optional(pyparsing.Literal('melody')),
-	
+
 	pyparsing.Group(
-		pyparsing.And([
-			alphanumerals,
+		pyparsing.Optional(
 			pyparsing.Or([
+				pyparsing.Literal('rest'),
+				pyparsing.Literal('notes'),
 				pyparsing.Literal('note'),
-				pyparsing.Literal('notes')
+				pyparsing.Literal('melody')
 			])
-			pyparsing.Literal('melody')
-		])
-	)
-	
+		)
+	),
+
+	pyparsing.Group(
+		pyparsing.Optional(
+			pyparsing.And([
+				alphanumerals,
+				pyparsing.Or([
+					pyparsing.Literal('note'),
+					pyparsing.Literal('notes')
+				]),
+				pyparsing.Literal('melody')
+			])
+		)
+	),
+
 	pyparsing.Group(
 		pyparsing.Optional(
 			pyparsing.And([
 				pyparsing.Literal("on the word &quot;"),
-				pyparsing.ZeroOrMore(pyparsing.Word(alphas)),
+				pyparsing.ZeroOrMore(pyparsing.Word(pyparsing.alphas)),
 				pyparsing.Literal("!&quot;")
 			])
 		)
-	)
-					
+	),
+
 	pyparsing.Group(
 		pyparsing.Optional(
 			pyparsing.And([
@@ -85,20 +93,20 @@ query = pyparsing.And([
 				pyparsing.Literal('passage')
 			])
 		)
-	)
-	
+	),
+
 	pyparsing.Group(
 		pyparsing.Optional(
 			pyparsing.And([
-				pyparsing.Or(
+				pyparsing.Or([
 					pyparsing.Literal('in bars'),
-					pyparsing.Literal('in measures'),
-				)
+					pyparsing.Literal('in measures')
+                                ]),
 				pyparsing.OneOrMore(pyparsing.Word(pyparsing.nums)),
-				pyparsing.Or(
+				pyparsing.Or([
 					pyparsing.Literal('-'),
 					pyparsing.Literal('to')
-				)
+				]),
 				pyparsing.OneOrMore(pyparsing.Word(pyparsing.nums))
 			])
 		)
@@ -114,7 +122,7 @@ query = pyparsing.And([
 			]),
 		)
 	),
-	
+
 	pyparsing.Group(
 		pyparsing.Optional(
 			pyparsing.And([
@@ -123,8 +131,8 @@ query = pyparsing.And([
 				pyparsing.Literal('clef')
 			])
 		)
-	)
-	
+	),
+
 	pyparsing.Group(
 		pyparsing.Optional(
 			pyparsing.And([
