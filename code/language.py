@@ -13,11 +13,13 @@ hands = literals(['right', 'left'])
 conjunction = literals(['against', 'followed by'])
 
 query = pyparsing.And([
-	pyparsing.Optional(
-		pyparsing.Or([
-			pyparsing.Literal('chord'),
-			pyparsing.Literal('melody')
-		])
+	pyparsing.Group(
+		pyparsing.Optional(
+			pyparsing.Or([
+				pyparsing.Literal('chord'),
+				pyparsing.Literal('melody')
+			])
+		)
 	),
 	pyparsing.Group(
 		pyparsing.ZeroOrMore(
@@ -78,4 +80,8 @@ compound = pyparsing.And([
 	)
 ])
 
-print query.parseString('dotted crotchet G6').asList()
+def parse(question):
+	return query.parseString(question).asList()
+
+if __name__ == '__main__':
+	print parse('dotted crotchet G6')
