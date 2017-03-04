@@ -14,13 +14,14 @@ def parse(xmlfile):
 			for measure in part:
 				if checkmodule(measure, music21.instrument):
 					instrument = measure.partName
-					parsedmusic[instrument] = {'bars': [[]]}
+					parsedmusic[instrument] = {'bars': list()}
 				elif checkmodule(measure, music21.stream):
+					parsedmusic[instrument]['bars'].append(list())
 					for note in measure:
 						if checkmodule(note, music21.clef): parsedmusic[instrument]['clef'] = note
 						elif checkmodule(note, music21.key): parsedmusic[instrument]['key'] = note
 						elif checkmodule(note, music21.meter): parsedmusic[instrument]['meter'] = note.ratioString
-						elif checkmodule(note, music21.bar): parsedmusic[instrument]['bars'].append(list())
+						elif checkmodule(note, music21.bar): continue
 						elif checkmodule(note, music21.layout): continue
 						elif checkmodule(note, music21.note): parsedmusic[instrument]['bars'][-1].append((note.name, note.octave, note.offset, note.duration.quarterLength))
 						else: print 'type not recognized', type(note)

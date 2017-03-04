@@ -19,14 +19,13 @@ def lookup(query, context):
 		instrument = checklist(instrument, context)
 		if not instrument: continue
 		if query[9] and ''.join(query[9][1: 4]) != context[instrument]['meter']: continue
-		if query[8]: bars = context[instrument]['bars'][int(query[8][1]): int(query[8][3]) + 1]
+		if query[8]: bars = context[instrument]['bars'][int(query[8][1]) - 1: int(query[8][3])]
 		else: bars = context[instrument]['bars']
 		if query[3]:
-			for bar in context[instrument]['bars']:
+			for bar in bars:
 				for note in bar:
 					if query[3][0] != note[0]: continue
-					if query[2]:
-						if translatetimes[query[2][0]] != note[3]: continue
+					if query[2] and translatetimes[query[2][0]] != note[3]: continue
 					return True
 	return False
 
