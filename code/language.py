@@ -1,8 +1,6 @@
 import pyparsing
 
-def literals(literallist):
-	return pyparsing.Or([pyparsing.Literal(literal) for literal in literallist])
-
+literals = lambda literallist: pyparsing.Or([pyparsing.Literal(literal) for literal in literallist])
 times = literals(['breve', 'breves', 'semibreve','semibreves', 'minim', 'minims', 'crotchets', 'crotchet', 'quavers', 'quaver', 'semiquaver','semiquavers', 'demisemiquaver', 'demisemiquavers'])
 augmentedtimes = literals(['dotted', 'double dotted'])
 notes = literals(['B', 'C', 'D', 'E', 'F', 'G', 'Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti', 'do', 're', 'mi', 'fa', 'sol', 'la', 'ti'])
@@ -37,7 +35,7 @@ query = pyparsing.And([
 	pyparsing.Group(
 		pyparsing.ZeroOrMore(
 			pyparsing.And([	
-				pyparsing.Optional(augmentedtimes),
+				pyparsing.Group(pyparsing.Optional(augmentedtimes)),
 	   			times
 			])
 		)
@@ -46,8 +44,8 @@ query = pyparsing.And([
 		pyparsing.ZeroOrMore(
 			pyparsing.And([
 				notes,
-				pyparsing.Optional(augmentednotes),
-				pyparsing.Optional(octave)
+				pyparsing.Group(pyparsing.Optional(augmentednotes)),
+				pyparsing.Group(pyparsing.Optional(octave))
 	   		 ])
 		)
 	),
