@@ -31,7 +31,7 @@ def lookup(query, context):
 		for bar in part:
 			for descriptor in bar:
 				if match(time, descriptor[3]) and match(note, descriptor[0]) and match(meter, descriptor[6]) and match(clef, descriptor[7]) and match(instrument, descriptor[4]):
-					answerlist.append([descriptor[6], 1 / descriptor[3], [position, descriptor[2] / descriptor[3] + 1], [position, descriptor[2] / descriptor[3] + 1]])
+					answerlist.append([descriptor[6], 1 / descriptor[3], position, descriptor[2] / descriptor[3] + 1])
 			position += 1
 	return answerlist
 
