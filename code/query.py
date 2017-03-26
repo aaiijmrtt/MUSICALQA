@@ -1,3 +1,4 @@
+import sys
 import music, language
 
 _debug_ = False
@@ -36,8 +37,9 @@ def lookup(query, context):
 	return answerlist
 
 if __name__ == '__main__':
-	query = preprocess('quarter note G in bars 2-2 in 4/4 time in the bass')
+	if len(sys.argv) == 3: query, context = sys.argv[1], sys.argv[2]
+	else: query, context = 'quarter note G in bars 2-2 in 4/4 time in the bass', 'data/f01.xml'
+	query = preprocess(query)
 	query = language.parse(query)
-	context = 'data/f01.xml'
 	context = music.parse(context)
 	print lookup(query, context)
